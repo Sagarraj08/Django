@@ -1,0 +1,39 @@
+{% extends 'index.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+   
+   </head>
+   <body>
+                 
+      {% block content %}
+      <div class="jewellery_section">
+         <div id="jewellery_main_slider" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+               <div class="carousel-item active">
+                  <div class="container">
+                     <h1 class="fashion_taital">PRODUCT</h1>
+                     <div class="fashion_section_2">
+                        <div class="row">
+                           {% for i in product %}
+                           <div class="col-lg-4 col-sm-4">
+                              <div class="box_main">
+                                 <h3 class="shirt_text">{{i.category}}</h3>
+                                 <h4 class="shirt_text">{{i.product_name}}</h4>
+                                 <p class="price_text">Price <span style="color: #262626;">Rs.{{i.product_price}}</span></p>
+                                 <div class="jewellery_img"><img src="{{i.product_image.url }}"></div>
+                                 <div class="btn_main">
+                                    <div class="buy_bt"><a href="{% url 'buyerdetails' pk=i.pk %}">Details</a></div>
+                                    <div class="seemore_bt"><a href="#">See More</a></div>
+                                 </div>
+                              </div>
+                           </div> 
+      
+      {% endfor %}
+      <!-- jewellery  section end -->
+      <!-- footer section start -->
+          {% endblock %}
+
+   </body>
+</html>

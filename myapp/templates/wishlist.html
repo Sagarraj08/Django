@@ -1,0 +1,61 @@
+{% extends 'index.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+
+   </head>
+   <body>
+      <!-- banner bg main start -->
+      <div class="banner_bg_main">
+         <!-- header top section start -->
+         <div class="container">
+            <div class="header_section_top">
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="custom_menu">
+                        <ul>
+                           <li><a href="#">Best Sellers</a></li>
+                           <li><a href="#">Add product</a></li>
+                           <li><a href="{% url 'viewproduct'%}">view product</a></li>
+                           <li><a href="#">Today's Deals</a></li>
+                           <li><a href="#">Seller Service</a></li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- header top section start -->
+         {% block content %}
+
+      <!-- banner bg main end -->
+      <!-- jewellery  section start -->
+      <div class="jewellery_section">
+         <div id="jewellery_main_slider" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+               <div class="carousel-item active">
+                  <div class="container">
+                     <h1 class="fashion_taital">YOUR WISHLIST</h1>
+                     <div class="fashion_section_2">
+                        <div class="row">
+                           {% for i in wishlists %}
+                           <div class="col-lg-4 col-sm-4">
+                              <div class="box_main">
+                                 <h3 class="shirt_text">{{i.product.category}}</h3>
+                                 <h4 class="shirt_text">{{i.product.product_name}}</h4>
+                                 <p class="price_text">Price <span style="color: #262626;">Rs.{{i.product.product_price}}</span></p>
+                                 <div class="jewellery_img"><img src="{{i.product.product_image.url }}"></div>
+                                 <div class="btn_main">
+                                    <div class="buy_bt"><a href="{% url 'buyerdetails' pk=i.pk %}">Details</a></div>
+                                    <div class="seemore_bt"><a href="#">Add to Cart</a></div>
+                                 </div>
+                              </div>
+                           </div> 
+      
+      {% endfor %}
+
+      {% endblock %}
+
+   </body>
+</html>
