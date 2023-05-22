@@ -47,7 +47,9 @@
              <div class="col-md-8">
                <div class="card mb-4">
                  <div class="card-header py-3">
-                   {% comment %} <h5 class="mb-0">Cart 2 items</h5> {% endcomment %}
+                  {% if request.session.cart_count %}
+                   <h5 class="mb-0">{{request.session.cart_count}} items in Cart</h5>
+                   {% endif%}
                  </div>
                  <div class="card-body">
                    <!-- Single item -->

@@ -39,6 +39,9 @@
                      <h1 class="fashion_taital">YOUR WISHLIST</h1>
                      <div class="fashion_section_2">
                         <div class="row">
+                           {% if msg %}
+                           {{'msg'}}
+                           {%endif%}
                            {% for i in wishlists %}
                            <div class="col-lg-4 col-sm-4">
                               <div class="box_main">

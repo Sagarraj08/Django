@@ -7,8 +7,9 @@ import random,razorpay
 # Create your views here.
 def index(request):
     cat=Category.objects.all()
+    product=Product.objects.all()
     # user=User.objects.get(request.session['fname'])
-    return render(request,"index.html",{'cat':cat})
+    return render(request,"index.html",{'cat':cat,'product':product})
 def electronic(request):
     return render(request,"electronic.html")
 def fashion(request):
@@ -63,6 +64,7 @@ def login(request):
 def logout(request):
     try:
         del request.session['email']
+        del request.session['cart_count'] 
         return render(request,'index.html')
     except:
         return render(request,'login.html')     
@@ -199,7 +201,6 @@ def buyerdetails(request,pk):
     product=Product.objects.get(pk=pk)
     cat=Category.objects.all()
     user=User.objects.get(email=request.session['email'])
-    print("<<<<<<<<<<<<<<<<<")
     try:
         Wishlist.objects.get(user=user,product=product)
         wishlist_obj=True
@@ -217,9 +218,12 @@ def buyerdetails(request,pk):
 
 def wishlist(request):
     cat=Category.objects.all()
-    user=User.objects.get(email=request.session['email']) 
-    wishlists=Wishlist.objects.filter(user=user)
-    return render(request,'wishlist.html',{'wishlists':wishlists,'cat':cat})
+    if user==User.objects.get(email=request.session['email']): 
+        wishlists=Wishlist.objects.filter(user=user)
+        return render(request,'wishlist.html',{'wishlists':wishlists,'cat':cat})
+    else:
+        msg="You need to login"
+        return render(request,'wishlist.html',{'wishlists':wishlists,'cat':cat,'msg':msg})
 
 def addtowishlist(request,pk):
     user=User.objects.get(email=request.session['email'])
@@ -240,19 +244,25 @@ def removefromwishlist(request,pk):
 def cart(request):
     net_price=100
     cat=Category.objects.all()
-    user=User.objects.get(email=request.session['email'])
-    # product=Product.objects.get(pk=pk) 
-    carts=Cart.objects.filter(user=user,payment=False)
-    for i in carts:
-        net_price+=i.total
-    carts.net_price=net_price
-    client = razorpay.Client(auth = (settings.KEY_ID, settings.KEY_SECRET))
-    payments = client.order.create({'amount':carts.net_price*100,'currency':'INR','payment_capture':1})   
-    print("1111111111111111",payments)
-    carts.razorpay_order_id=payments['id']
-    for i in carts:
-        i.save()
-    return render(request,'cart.html',{'carts':carts,'payments':payments,'cat':cat})
+    User.objects.all()
+    try:
+        user=User.objects.get(email=request.session['email'])
+        # product=Product.objects.get(pk=pk) 
+        carts=Cart.objects.filter(user=user,payment=False)
+        request.session['cart_count']=len(carts)
+        for i in carts:
+            net_price+=i.total
+        carts.net_price=net_price
+        client = razorpay.Client(auth = (settings.KEY_ID, settings.KEY_SECRET))
+        payments = client.order.create({'amount':carts.net_price*100,'currency':'INR','payment_capture':1})   
+        print("1111111111111111",payments)
+        carts.razorpay_order_id=payments['id']
+        for i in carts:
+            i.save()
+        return render(request,'cart.html',{'carts':carts,'payments':payments,'cat':cat})
+    except:
+        return render(request,'login.html',{'cat':cat})
+
 
 def success(request):
     order_id=request.GET.get('order_id')
@@ -295,9 +305,10 @@ def change_qty(request,pk):
     return redirect('cart')
 
 def category(request,pk):
+    l=Category.objects.all()
     cat=Category.objects.get(pk=pk)
     product=Product.objects.filter(category=cat)
-    return render(request,'category.html',{'product':product})
+    return render(request,'category.html',{'product':product,'l':l})
 
 def search(request):
     if request.method=='POST':
