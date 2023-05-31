@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from tinymce.models import HTMLField
 
 # Create your models here.
 class User(models.Model):
@@ -25,7 +26,7 @@ class Product(models.Model):
     product_name=models.CharField(max_length=100)
     product_price=models.IntegerField()
     product_qty=models.IntegerField()
-    product_desc=models.CharField(max_length=500)
+    product_desc=HTMLField()
     product_image=models.ImageField(upload_to='product_image/')
 
     def __str__(self):

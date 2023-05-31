@@ -25,7 +25,7 @@
                                <p><h2>Price: <span style="color: #262626;">Rs.{{product.product_price}}</h2></span></p>
                                <p>Qty: <span style="color: #262626;">{{product.product_qty}}</span></p>
                                <p>Category: <span style="color: #262626;">{{product.category}}</span></p>
-                               <p>Description: <span style="color: #262626;">{{product.product_desc}}</span></p>
+                               <p>Description: <span style="color: #262626;">{{product.product_desc | safe}}</span></p>
                               {% if request.session.email %}
                                
                                  {% if cart_obj %}

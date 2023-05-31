@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate,login
 import random,razorpay
+from django.http import JsonResponse
 # Create your views here.
 def index(request):
     cat=Category.objects.all()
@@ -37,7 +38,11 @@ def signup(request):
                 return render(request,'signup.html',{'msg':msg})
     else:  
         return render(request,"signup.html")
-
+    
+def Form_Validation(request):
+    email=request.GET.get('email')
+    data={'is_taken':User.objects.filter(email__iexact=email).exists()}
+    return JsonResponse(data)
 def login(request):
     if request.method=="POST":
         try:
@@ -267,11 +272,13 @@ def cart(request):
 def success(request):
     order_id=request.GET.get('order_id')
     carts=Cart.objects.filter(razorpay_order_id=order_id)
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
     for i in carts:
         i.payment=True
         i.save()
     carts.delete()
-    return render(request,'callback.html')
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    return render(request,'success.html')
 def addtocart(request,pk):
     try:     
         user=User.objects.get(email=request.session['email'])
@@ -311,11 +318,13 @@ def category(request,pk):
     return render(request,'category.html',{'product':product,'l':l})
 
 def search(request):
+    search=Product.objects.all()
     if request.method=='POST':
-        if request.POST['name_search'].__contains__('PC'):
-            product=Product.objects.get(product_name=request.POST['name_search'])
-            return render(request,'buyerdetails.html',{'product':product})
+        name=request.POST['name_search']
+        if name!=None:
+            search=Product.objects.filter(product_name__icontains=name)
+            return render(request,'buyerdetails.html',{'search':search,'name':name})
         else:
             return render(request,'allproducts.html')
     else:
-        return(request,'index.html')
+        return(request,'index.html')    

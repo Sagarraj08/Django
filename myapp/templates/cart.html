@@ -138,6 +138,9 @@
                        </div>
                        </div>
                    </div>
+                   
+                   {% empty %}
+                   <h1 align='center'>NO PRODUCTS IN CART</h1>
                    {% endfor %}
 
                    <!-- Single item -->
@@ -216,7 +219,7 @@
       <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
 var options = {
-    "key": "rzp_test_HaimDO7NrsCKKR", // Enter the Key ID generated from the Dashboard
+    "key": "rzp_test_RDK6XMTmZvZRyl", // Enter the Key ID generated from the Dashboard
     "amount": "{{payments.amount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
     "currency": "INR",
     "name": "myapp",
@@ -224,7 +227,7 @@ var options = {
     "image": "https://example.com/your_logo",
     "order_id": "{{carts.razorpay_order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
     "handler": function (response){
-        window.location.href=`http://127.0.0.1:8000/success/?razorpay_payment_id=${response.razorpay_payment_id}&razorpay_order_id=${response.razorpay_order_id}&razorpay_signature=${response.razorpay_signature}`
+        window.location.href=`http://127.0.0.1:8000/success?razorpay_payment_id=${response.razorpay_payment_id}&razorpay_order_id=${response.razorpay_order_id}&razorpay_signature=${response.razorpay_signature}`;
         alert(response.razorpay_payment_id);
         alert(response.razorpay_order_id);
         alert(response.razorpay_signature)

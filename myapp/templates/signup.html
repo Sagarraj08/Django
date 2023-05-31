@@ -15,6 +15,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <!-- Custom Theme files -->
 <link href="{% static 'css/signup.css'%}" rel="stylesheet" type="text/css" media="all" />
 <!-- //Custom Theme files -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
 <!-- web font -->
 <link href="//fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" rel="stylesheet">
 <!-- //web font -->
@@ -30,13 +32,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				{% endif %}
 				<form action="{% url 'signup' %}" method="post">
                     {% csrf_token %}
-					<select class="text" name='usertype'>
+					<select class="text" class='text' name='usertype'>
 						<option>-----select user type-----</option>
 						<option value="buyer">Buyer</option>
 						<option value="seller">Seller</option>
 					</select>
 					<input class="text" type="text" name="fname" placeholder="Username" required="">
-					<input class="text email" type="email" name="email" placeholder="Email" required="">
+					<input class="text email" type="email" name="email" id="email" placeholder="Email" required="">
+					<span id='email_error'  style='color:red;'></span>
 					<input class="text" type="password" name="pswd" placeholder="Password" required="">
 					<input class="text w3lpass" type="password" name="cpswd" placeholder="Confirm Password" required="">
 					<div class="wthree-text">
@@ -70,5 +73,26 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		</ul>
 	</div>
 	<!-- //main -->
+	<script>
+        
+		$("#email").change(function(){
+		  var email=$(this).val();
+
+		  $.ajax({
+			url: '/ajax/Form_Validation/',
+			data: {'email':email},
+			datatype: 'json',
+			success: function (data){
+			  if (data.is_taken) {
+				document.getElementById("email_error").innerHTML="This Email ID is Already Exist"
+			  }
+			  else{
+
+			  }
+			}
+		  });
+		});
+
+	</script>
 </body>
 </html>

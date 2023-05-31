@@ -30,13 +30,8 @@ urlpatterns = [
     path('change_qty/<int:pk>/',views.change_qty,name='change_qty'),
     path('category/<int:pk>/',views.category,name='category'),
     path('search',views.search,name='search'),
-    path('success',views.success,name='success')
-
-
-
-
-
-
+    path('success',views.success,name='success'),
+    path('ajax/Form_Validation/',views.Form_Validation,name='Form_Validation'),
 
 
 

@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "myapp",
+    "myapp","tinymce",
 ]
 
 MIDDLEWARE = [
@@ -136,5 +136,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # PAYMENT INTEGRATION
-KEY_ID='rzp_test_HaimDO7NrsCKKR'
-KEY_SECRET='WD8YeNaM0RzIv5kvDoreKbDi'
+KEY_ID='rzp_test_RDK6XMTmZvZRyl'
+KEY_SECRET='YoMPPHfuiL2F9vuQqfM4mcQw'
