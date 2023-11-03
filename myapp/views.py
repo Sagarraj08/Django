@@ -223,6 +223,7 @@ def buyerdetails(request,pk):
 
 def wishlist(request):
     cat=Category.objects.all()
+    user=User.objects.get(email=request.session['email'])
     if user==User.objects.get(email=request.session['email']): 
         wishlists=Wishlist.objects.filter(user=user)
         return render(request,'wishlist.html',{'wishlists':wishlists,'cat':cat})
@@ -249,10 +250,10 @@ def removefromwishlist(request,pk):
 def cart(request):
     net_price=100
     cat=Category.objects.all()
-    User.objects.all()
+    # user=User.objects.get(email=request.session['email'])
     try:
         user=User.objects.get(email=request.session['email'])
-        product=Product.objects.get(pk=pk) 
+        # product=Product.objects.get(pk=pk) 
         carts=Cart.objects.filter(user=user,payment=False)
         request.session['cart_count']=len(carts)
         for i in carts:
@@ -264,7 +265,7 @@ def cart(request):
         carts.razorpay_order_id=payments['id']
         for i in carts:
             i.save()
-        return render(request,'cart.html','user',{'carts':carts,'payments':payments,'cat':cat,'product':product})
+        return render(request,'cart.html',{'carts':carts,'payments':payments,'cat':cat})
     except:
         return render(request,'login.html',{'cat':cat})
 
