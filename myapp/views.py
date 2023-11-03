@@ -229,7 +229,7 @@ def wishlist(request):
         return render(request,'wishlist.html',{'wishlists':wishlists,'cat':cat})
     else:
         msg="You need to login"
-        return render(request,'wishlist.html',{'wishlists':wishlists,'cat':cat,'msg':msg})
+        return render(request,'wishlist.html',{'cat':cat,'msg':msg})
 
 def addtowishlist(request,pk):
     user=User.objects.get(email=request.session['email'])
