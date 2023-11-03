@@ -136,5 +136,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # PAYMENT INTEGRATION
-KEY_ID='rzp_test_RDK6XMTmZvZRyl'
-KEY_SECRET='YoMPPHfuiL2F9vuQqfM4mcQw'
+KEY_ID='rzp_test_0whYfgJiXwelOb'
+KEY_SECRET='GBtO6XKO1bA1k9gJKY1EFTtV'

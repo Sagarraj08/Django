@@ -252,7 +252,7 @@ def cart(request):
     User.objects.all()
     try:
         user=User.objects.get(email=request.session['email'])
-        # product=Product.objects.get(pk=pk) 
+        product=Product.objects.get(pk=pk) 
         carts=Cart.objects.filter(user=user,payment=False)
         request.session['cart_count']=len(carts)
         for i in carts:
@@ -264,7 +264,7 @@ def cart(request):
         carts.razorpay_order_id=payments['id']
         for i in carts:
             i.save()
-        return render(request,'cart.html',{'carts':carts,'payments':payments,'cat':cat})
+        return render(request,'cart.html','user',{'carts':carts,'payments':payments,'cat':cat,'product':product})
     except:
         return render(request,'login.html',{'cat':cat})
 
